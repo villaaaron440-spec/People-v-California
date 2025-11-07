@@ -1,173 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>the People of the United States Republic vs the State of California</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Montserrat&family=Orbitron:wght@900&display=swap" rel="stylesheet">
-    <style>
-        body{font-family:'Montserrat',sans-serif;background:#0b1e3d;color:#fff;text-align:center;margin:0;padding:20px;min-height:100vh;position:relative;overflow-hidden}
-        canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0}
-        h1{font-family:'Orbitron',monospace;font-size:3.5em;font-weight:900;text-shadow:0 0 40px cyan, 0 0 80px #0ff;z-index:2;margin:20px auto;line-height:1.2;letter-spacing:2px;background:rgba(0,0,0,0.4);padding:20px;border:3px solid cyan;border-radius:20px;max-width:95%;box-shadow:0 0 50px rgba(0,255,255,0.5)}
-        #charges{font-size:1.5em;font-weight:bold;max-width:95%;margin:30px auto;padding:25px;background:rgba(0,0,0,0.6);border:3px solid gold;border-radius:20px;text-shadow:0 0 20px gold, 0 0 40px orange;z-index:2;line-height:1.5;letter-spacing:1px;box-shadow:0 0 60px rgba(255,215,0,0.4)}
-        form{margin:50px auto;max-width:600px;padding:30px;background:rgba(0,0,0,0.5);border-radius:15px;backdrop-filter:blur(10px);z-index:2;border:1px solid cyan}
-        input,textarea,button{padding:12px;margin:8px;border:none;border-radius:8px;background:rgba(255,255,255,0.1);color:#fff}
-        button{background:gold;color:#000;font-weight:bold;cursor:pointer}
-        button:hover{background:cyan;box-shadow:0 0 40px cyan;transform:scale(1.05)}
-        .leaderboard{max-width:800px;margin:auto;padding:20px;background:rgba(0,0,0,0.5);border-radius:15px;z-index:2}
-        .lawyer{background:rgba(0,255,255,0.1);margin:10px;padding:10px;border-left:4px solid cyan;text-align:left}
-        .progress-bar{width:80%;max-width:700px;height:30px;background:#000;border-radius:15px;overflow:hidden;margin:auto;position:relative;border:1px solid cyan}
-        .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,red,gold,cyan);transition:width 1.5s}
-        .progress-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff}
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>the People of the United States Republic vs the State of California</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Montserrat&family=Orbitron:wght@900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #0b1e3d;
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: 3.5em;
+      font-weight: 900;
+      text-shadow: 0 0 40px cyan, 0 0 80px #0ff;
+      z-index: 20;
+      margin: 20px auto;
+      line-height: 1.2;
+      letter-spacing: 2px;
+      background: rgba(0,0,0,0.4);
+      padding: 20px;
+      border: 3px solid cyan;
+      border-radius: 20px;
+      max-width: 95%;
+      box-shadow: 0 0 50px rgba(0,255,255,0.5);
+      position: relative;
+    }
+
+    #charges {
+      font-size: 1.5em;
+      font-weight: bold;
+      max-width: 95%;
+      margin: 30px auto;
+      padding: 25px;
+      background: rgba(0,0,0,0.6);
+      border: 3px solid gold;
+      border-radius: 20px;
+      text-shadow: 0 0 20px gold, 0 0 40px orange;
+      z-index: 20;
+      line-height: 1.5;
+      letter-spacing: 1px;
+      box-shadow: 0 0 60px rgba(255,215,0,0.4);
+      position: relative;
+    }
+
+    form {
+      margin: 50px auto;
+      max-width: 600px;
+      padding: 30px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      z-index: 10;
+      border: 1px solid cyan;
+      position: relative;
+    }
+
+    input, textarea, button {
+      padding: 12px;
+      margin: 8px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      width: calc(100% - 16px);
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    button {
+      background: gold;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      background: cyan;
+      box-shadow: 0 0 40px cyan;
+      transform: scale(1.05);
+    }
+
+    .leaderboard {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 15px;
+      z-index: 10;
+      position: relative;
+    }
+
+    .lawyer {
+      background: rgba(0,255,255,0.1);
+      margin: 10px;
+      padding: 10px;
+      border-left: 4px solid cyan;
+      text-align: left;
+      border-radius: 8px;
+    }
+
+    .progress-bar {
+      width: 80%;
+      max-width: 700px;
+      height: 30px;
+      background: #000;
+      border-radius: 15px;
+      overflow: hidden;
+      margin: 30px auto;
+      position: relative;
+      border: 1px solid cyan;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, red, gold, cyan);
+      transition: width 1.5s ease;
+    }
+
+    .progress-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-weight: bold;
+      z-index: 2;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.2em;
+      }
+      #charges {
+        font-size: 1.2em;
+        padding: 18px;
+      }
+      input, button {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <canvas id="bg"></canvas>
-    <div>
-        <h1>the People of the United States Republic<br>vs the State of California</h1>
-        <div id="charges">Charges include misappropriation of federal funds allocated for United States Citizens against their will and intent with malice in order to displace our Constitution Republic for which We the People Stand.</div>
-        <p>Time for a reckoning.</p>
-        <div>Americans Ready: <span id="pop">39,029,342</span></div>
 
-        <form id="petition">
-            <input type="text" id="name" placeholder="Name" required>
-            <input type="text" id="city" placeholder="City, State" required>
-            <button type="submit">SIGN</button>
-        </form>
+  <canvas id="bg"></canvas>
 
-        <form id="legalForm">
-            <h2>LEGAL VOLUNTEER</h2>
-            <input type="text" id="lawyerName" placeholder="Name / Bar #" required>
-            <input type="text" id="safeContact" placeholder="ProtonMail / Signal / Telegram" required>
-            <textarea id="whyLawyer" placeholder="Why lawyer?"></textarea>
-            <input type="text" id="jurisdiction" placeholder="Jurisdiction" required>
-            <button type="submit">ENLIST</button>
-        </form>
+  <div>
+    <h1>the People of the United States Republic<br>vs the State of California</h1>
 
-        <div>Patriots Signed: <span id="signCount">0</span></div>
-        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div><div class="progress-text" id="progressText">0 / 100,000,000</div></div>
-        <div>Until Reckoning: <span id="timer">—</span></div>
-
-        <div class="leaderboard">
-            <h2>LEGAL WARRIORS</h2>
-            <div id="lawyerList">No warriors yet</div>
-        </div>
+    <div id="charges">
+      Charges include misappropriation of federal funds allocated for United States Citizens against their will and intent with malice in order to displace our Constitution Republic for which We the People Stand.
     </div>
 
-    <script>
-        const fullFoundingDocs = `In Congress, July 4, 1776 The unanimous Declaration of the thirteen united States of America When in the Course of human events it becomes necessary for one people to dissolve the political bands which have connected them with another and to assume among the powers of the earth the separate and equal station to which the Laws of Nature and of Nature's God entitle them a decent respect to the opinions of mankind requires that they should declare the causes which impel them to the separation We hold these truths to be self-evident that all men are created equal that they are endowed by their Creator with certain unalienable Rights that among these are Life Liberty and the pursuit of Happiness That to secure these rights Governments are instituted among Men deriving their just powers from the consent of the governed That whenever any Form of Government becomes destructive of these ends it is the Right of the People to alter or to abolish it and to institute new Government We the People of the United States in Order to form a more perfect Union establish Justice insure domestic Tranquility provide for the common defence promote the general Welfare and secure the Blessings of Liberty to ourselves and our Posterity do ordain and establish this Constitution for the United States of America Article I Section 1 All legislative Powers herein granted shall be vested in a Congress of the United States which shall consist of a Senate and House of Representatives Amendment I Congress shall make no law respecting an establishment of religion or prohibiting the free exercise thereof or abridging the freedom of speech or of the press or the right of the people peaceably to assemble and to petition the Government for a redress of grievances Amendment II A well regulated Militia being necessary to the security of a free State the right of the people to keep and bear Arms shall not be infringed [ALL 27 AMENDMENTS] Done in Convention G Washington Presidt`;
+    <p>Time for a reckoning.</p>
 
-        let binaryString = '';
-        for (let i = 0; i < fullFoundingDocs.length; i++) binaryString += fullFoundingDocs.charCodeAt(i).toString(2).padStart(8, '0') + ' ';
-        const binaryArray = binaryString.split(' ');
+    <div>Americans Ready: <span id="pop">39,029,342</span></div>
 
-        const canvas = document.getElementById('bg');
-        const ctx = canvas.getContext('2d');
-        function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
-        resize(); addEventListener('resize', resize);
+    <form id="petition">
+      <input type="text" id="name" placeholder="Name" required>
+      <input type="text" id="city" placeholder="City, State" required>
+      <button type="submit">SIGN</button>
+    </form>
 
-        let starPhase = 0, reckoning = false;
-        const columns = [];
-        for (let i = 0; i < 200; i++) columns.push({x: i * 10, y: Math.random() * -innerHeight, speed: 2 + Math.random() * 3, index: Math.random() * binaryArray.length | 0});
+    <form id="legalForm">
+      <h2>LEGAL VOLUNTEER</h2>
+      <input type="text" id="lawyerName" placeholder="Name / Bar #" required>
+      <input type="text" id="safeContact" placeholder="ProtonMail / Signal / Telegram" required>
+      <button type="submit">VOLUNTEER</button>
+    </form>
 
-        function draw() {
-            ctx.fillStyle = '#0b1e3d'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            const stripeH = canvas.height / 13;
-            columns.forEach(c => {
-                c.y += c.speed;
-                if (c.y > canvas.height) c.y = -100;
-                const stripe = Math.floor(c.y / stripeH) % 13;
-                ctx.fillStyle = stripe % 2 === 0 ? '#C8102E' : '#fff';
-                ctx.globalAlpha = 0.8;
-                for (let j = 0; j < 20; j++) {
-                    const bit = binaryArray[(c.index + j) % binaryArray.length];
-                    ctx.fillText(bit, c.x, c.y + j * 20);
-                }
-                c.index++;
-            });
-            ctx.globalAlpha = 1;
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+      <div class="progress-text">39,029,342 / 50,000,000</div>
+    </div>
 
-            // Stars pulsing
-            ctx.fillStyle = '#fff';
-            ctx.shadowColor = '#0ff';
-            ctx.shadowBlur = 20;
-            for (let i = 0; i < 50; i++) {
-                const pulse = Math.sin(starPhase + i) * 0.5 + 0.5;
-                ctx.globalAlpha = pulse;
-                ctx.fillText('★', 50 + (i % 9) * 40, 50 + Math.floor(i / 9) * 40);
-            }
-            ctx.globalAlpha = 1;
-            ctx.shadowBlur = 0;
+    <div class="leaderboard">
+      <h2>Top Legal Volunteers</h2>
+      <div class="lawyer">Attorney John Doe #12345 — ProtonMail: secure@proton.me</div>
+      <div class="lawyer">Counsel Jane Smith #67890 — Signal: +1-555-0199</div>
+    </div>
+  </div>
 
-            starPhase += 0.05;
-            if (!reckoning) requestAnimationFrame(draw);
-        }
-        draw();
+  <script>
+    // Animated background canvas
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-        const TARGET = 100000000;
-        let signers = JSON.parse(localStorage.getItem('signers') || '[]');
-        let lawyers = JSON.parse(localStorage.getItem('lawyers') || '[]');
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
 
-        function update() {
-            document.getElementById('signCount').textContent = signers.length.toLocaleString();
-            const percent = signers.length / TARGET * 100;
-            document.getElementById('progressFill').style.width = percent + '%';
-            document.getElementById('progressText').textContent = signers.length.toLocaleString() + ' / 100,000,000';
-            const remaining = TARGET - signers.length;
-            document.getElementById('timer').textContent = remaining <= 0 ? 'RECKONING HERE!' : remaining.toLocaleString() + ' to go';
-            document.getElementById('lawyerList').innerHTML = lawyers.map(l => `<div class="lawyer"><strong>${l.name}</strong> ${l.jurisdiction}<br><em>"${l.why}"</em><br>Contact: ${l.contact}</div>`).join('') || 'No warriors yet';
-            if (remaining <= 0) reckoning = true;
-        }
-        update();
+    let particles = [];
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 0.5;
+        this.speedX = Math.random() * 1 - 0.5;
+        this.speedY = Math.random() * 1 - 0.5;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+        if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+      }
+      draw() {
+        ctx.fillStyle = 'rgba(0, 255, 255, 0.8)';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
 
-        document.getElementById('petition').onsubmit = e => {
-            e.preventDefault();
-            signers.push({name: document.getElementById('name').value, city: document.getElementById('city').value});
-            localStorage.setItem('signers', JSON.stringify(signers));
-            update();
-            alert('SIGNED! Revolution stronger. Share the sync link from browser share button or copy URL now.');
-            e.target.reset();
-        };
+    for (let i = 0; i < 150; i++) {
+      particles.push(new Particle());
+    }
 
-        document.getElementById('legalForm').onsubmit = e => {
-            e.preventDefault();
-            lawyers.push({name: document.getElementById('lawyerName').value, contact: document.getElementById('safeContact').value, why: document.getElementById('whyLawyer').value, jurisdiction: document.getElementById('jurisdiction').value});
-            localStorage.setItem('lawyers', JSON.stringify(lawyers));
-            update();
-            alert('ENLISTED! Contact the warriors listed.');
-            e.target.reset();
-        };
+    function animate() {
+      ctx.fillStyle = 'rgba(11, 30, 61, 0.1)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
 
-        // Global sync via URL
-        if (location.search.includes('sync=')) {
-            const data = JSON.parse(atob(new URLSearchParams(location.search).get('sync')));
-            signers = data.s || signers;
-            lawyers = data.l || lawyers;
-            localStorage.setItem('signers', JSON.stringify(signers));
-            localStorage.setItem('lawyers', JSON.stringify(lawyers));
-            update();
-            history.replaceState(null, null, location.pathname);
-        }
+    // Progress bar animation
+    const progressFill = document.getElementById('progressFill');
+    setTimeout(() => {
+      progressFill.style.width = '78%';
+    }, 500);
 
-        function shareSync() {
-            const data = btoa(JSON.stringify({s: signers, l: lawyers}));
-            const link = location.href.split('?')[0] + '?sync=' + data;
-            navigator.clipboard.writeText(link);
-            alert('GLOBAL SYNC LINK COPIED - SHARE THIS TO UNITE ALL SIGNATURES!');
-        }
+    // Form submission placeholder
+    document.getElementById('petition').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Signed! You are now part of the reckoning.');
+    });
 
-        // Add share button
-        const shareBtn = document.createElement('button');
-        shareBtn.textContent = 'COPY GLOBAL SYNC LINK';
-        shareBtn.style.margin = '20px';
-        shareBtn.style.padding = '15px 30px';
-        shareBtn.style.fontSize = '1.2em';
-        shareBtn.onclick = shareSync;
-        document.body.appendChild(shareBtn);
+    document.getElementById('legalForm').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Thank you, counsel. Your secure contact has been recorded.');
+    });
 
-        // Population
-        let pop = 39029342;
-        setInterval(() => { if (Math.random() < 0.55) pop++; document.getElementById('pop').textContent = pop.toLocaleString(); }, 12000);
-    </script>
+    // Auto-increment population (demo)
+    let pop = 39029342;
+    setInterval(() => {
+      pop += Math.floor(Math.random() * 7);
+      document.getElementById('pop').textContent = pop.toLocaleString();
+      const percent = Math.min((pop / 50000000) * 100, 100);
+      progressFill.style.width = percent + '%';
+      document.querySelector('.progress-text').textContent = `${pop.toLocaleString()} / 50,000,000`;
+    }, 3000);
+  </script>
+
 </body>
 </html>

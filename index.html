@@ -6,58 +6,54 @@
     <title>We the People vs. California</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Montserrat&family=Orbitron&display=swap" rel="stylesheet">
     <style>
-        body{font-family:'Montserrat',sans-serif;background:linear-gradient(135deg,#0b1e3d,#1a2b4e);color:#fff;text-align:center;margin:0;padding:20px;min-height:100vh;position:relative;overflow:hidden}
-        canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;mix-blend-mode:screen}
-        .metallic{background:linear-gradient(145deg,#1e3a5f,#0f2847);border:1px solid #3a5f8b;box-shadow:inset 0 0 20px rgba(0,100,200,0.3),0 0 30px rgba(0,200,255,0.2),0 10px 40px rgba(0,0,0,0.8)}
-        h1{font-family:'Orbitron',monospace;font-size:3em;text-shadow:0 0 30px rgba(0,255,255,0.9);z-index:2}
-        form{margin:50px auto;max-width:700px;padding:35px;background:rgba(10,30,60,0.7);border-radius:20px;backdrop-filter:blur(15px);z-index:2}
-        input,textarea,button{padding:14px;margin:10px;border:none;border-radius:10px;background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(0,255,255,0.4)}
+        body{font-family:'Montserrat',sans-serif;background:#0b1e3d;color:#fff;text-align:center;margin:0;padding:20px;min-height:100vh;position:relative;overflow:hidden}
+        canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0}
+        h1{font-family:'Orbitron',monospace;font-size:3em;text-shadow:0 0 30px cyan;z-index:2}
+        form{margin:50px auto;max-width:600px;padding:30px;background:rgba(0,0,0,0.5);border-radius:15px;backdrop-filter:blur(10px);z-index:2;border:1px solid cyan}
+        input,textarea,button{padding:12px;margin:8px;border:none;border-radius:8px;background:rgba(255,255,255,0.1);color:#fff}
         button{background:gold;color:#000;font-weight:bold;cursor:pointer}
-        button:hover{background:cyan;box-shadow:0 0 40px cyan;transform:scale(1.1)}
-        .leaderboard{margin:60px auto;max-width:900px;padding:30px;background:rgba(10,30,60,0.6);border-radius:20px;z-index:2}
-        .lawyer{background:rgba(0,255,255,0.1);margin:15px;padding:15px;border-left:4px solid cyan;text-align:left;border-radius:10px}
-        .countdown,.population,.signers{margin:40px auto;font-size:2em;text-shadow:0 0 20px #0ff;font-family:'Orbitron',monospace}
-        .progress-bar{margin:30px auto;width:80%;height:30px;background:rgba(0,0,0,0.6);border-radius:15px;overflow:hidden;border:1px solid cyan}
-        .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#C8102E,gold,cyan);transition:width 1.5s ease}
+        button:hover{background:cyan;box-shadow:0 0 40px cyan;transform:scale(1.05)}
+        .leaderboard{max-width:800px;margin:auto;padding:20px;background:rgba(0,0,0,0.5);border-radius:15px;z-index:2}
+        .lawyer{background:rgba(0,255,255,0.1);margin:10px;padding:10px;border-left:4px solid cyan;text-align:left}
+        .progress-bar{width:80%;max-width:700px;height:30px;background:#000;border-radius:15px;overflow:hidden;margin:auto;position:relative;border:1px solid cyan}
+        .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,red,gold,cyan);transition:width 1.5s}
         .progress-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff}
     </style>
 </head>
 <body>
     <canvas id="bg"></canvas>
-    <div class="container">
+    <div>
         <h1>WE THE PEOPLE VS. CALIFORNIA</h1>
-        <p>We the people have had enough. Time for a reckoning.</p>
-        <div class="population">Americans Ready: <span id="pop">39,029,342</span></div>
+        <p>Time for a reckoning.</p>
+        <div>Americans Ready: <span id="pop">39,029,342</span></div>
 
-        <form id="petition" class="metallic">
-            <p><strong>SIGN THE PETITION</strong></p>
+        <form id="petition">
             <input type="text" id="name" placeholder="Name" required>
             <input type="text" id="city" placeholder="City, State" required>
             <button type="submit">SIGN</button>
         </form>
 
-        <form id="legalForm" class="metallic">
-            <h2>⚖️ LEGAL VOLUNTEER SIGN UP ⚖️</h2>
+        <form id="legalForm">
+            <h2>LEGAL VOLUNTEER</h2>
             <input type="text" id="lawyerName" placeholder="Name / Bar #" required>
             <input type="text" id="safeContact" placeholder="ProtonMail / Signal / Telegram" required>
-            <textarea id="whyLawyer" placeholder="Why'd you become a lawyer?"></textarea>
+            <textarea id="whyLawyer" placeholder="Why lawyer?"></textarea>
             <input type="text" id="jurisdiction" placeholder="Jurisdiction" required>
             <button type="submit">ENLIST</button>
         </form>
 
-        <div class="signers">Patriots Signed: <span id="signCount">0</span></div>
+        <div>Patriots Signed: <span id="signCount">0</span></div>
         <div class="progress-bar"><div class="progress-fill" id="progressFill"></div><div class="progress-text" id="progressText">0 / 100,000,000</div></div>
-        <div class="countdown">Until Reckoning: <span id="timer">—</span></div>
+        <div>Until Reckoning: <span id="timer">—</span></div>
 
-        <div class="leaderboard metallic">
-            <h2>⚡ LEGAL WARRIORS ⚡</h2>
-            <div id="lawyerList">No warriors yet...</div>
+        <div class="leaderboard">
+            <h2>LEGAL WARRIORS</h2>
+            <div id="lawyerList">No warriors yet</div>
         </div>
     </div>
 
     <script>
-        // FULL FOUNDING DOCS BINARY RAIN (NO API KEY NEEDED)
-        const fullFoundingDocs = `In Congress, July 4, 1776 The unanimous Declaration of the thirteen united States of America When in the Course of human events it becomes necessary for one people to dissolve the political bands which have connected them with another and to assume among the powers of the earth the separate and equal station to which the Laws of Nature and of Nature's God entitle them a decent respect to the opinions of mankind requires that they should declare the causes which impel them to the separation We hold these truths to be self-evident that all men are created equal that they are endowed by their Creator with certain unalienable Rights that among these are Life Liberty and the pursuit of Happiness That to secure these rights Governments are instituted among Men deriving their just powers from the consent of the governed That whenever any Form of Government becomes destructive of these ends it is the Right of the People to alter or to abolish it and to institute new Government laying its foundation on such principles and organizing its powers in such form as to them shall seem most likely to effect their Safety and Happiness Prudence indeed will dictate that Governments long established should not be changed for light and transient causes and accordingly all experience hath shewn that mankind are more disposed to suffer while evils are sufferable than to right themselves by abolishing the forms to which they are accustomed But when a long train of abuses and usurpations pursuing invariably the same Object evinces a design to reduce them under absolute Despotism it is their right it is their duty to throw off such Government and to provide new Guards for their future security Such has been the patient sufferance of these Colonies and such is now the necessity which constrains them to alter their former Systems of Government The history of the present King of Great Britain is a history of repeated injuries and usurpations all having in direct object the establishment of an absolute Tyranny over these States To prove this let Facts be submitted to a candid world He has refused his Assent to Laws the most wholesome and necessary for the public good [FULL DECLARATION GRIEVANCES AND SIGNERS] We therefore the Representatives of the united States of America in General Congress Assembled appealing to the Supreme Judge of the world for the rectitude of our intentions do in the Name and by Authority of the good People of these Colonies solemnly publish and declare That these United Colonies are and of Right ought to be Free and Independent States [SIGNERS] We the People of the United States in Order to form a more perfect Union establish Justice insure domestic Tranquility provide for the common defence promote the general Welfare and secure the Blessings of Liberty to ourselves and our Posterity do ordain and establish this Constitution for the United States of America Article I Section 1 All legislative Powers herein granted shall be vested in a Congress of the United States which shall consist of a Senate and House of Representatives [FULL 7 ARTICLES ALL SECTIONS] Amendment I Congress shall make no law respecting an establishment of religion or prohibiting the free exercise thereof or abridging the freedom of speech or of the press or the right of the people peaceably to assemble and to petition the Government for a redress of grievances Amendment II A well regulated Militia being necessary to the security of a free State the right of the people to keep and bear Arms shall not be infringed [ALL 27 AMENDMENTS THROUGH XXVII] Done in Convention by the Unanimous Consent of the States present the Seventeenth Day of September in the Year of our Lord one thousand seven hundred and eighty seven and of the Independence of the United States of America the Twelfth In witness whereof We have hereunto subscribed our Names G Washington Presidt and deputy from Virginia [SIGNERS]`;
+        const fullFoundingDocs = `In Congress, July 4, 1776 The unanimous Declaration of the thirteen united States of America When in the Course of human events it becomes necessary for one people to dissolve the political bands which have connected them with another and to assume among the powers of the earth the separate and equal station to which the Laws of Nature and of Nature's God entitle them a decent respect to the opinions of mankind requires that they should declare the causes which impel them to the separation We hold these truths to be self-evident that all men are created equal that they are endowed by their Creator with certain unalienable Rights that among these are Life Liberty and the pursuit of Happiness That to secure these rights Governments are instituted among Men deriving their just powers from the consent of the governed That whenever any Form of Government becomes destructive of these ends it is the Right of the People to alter or to abolish it and to institute new Government We the People of the United States in Order to form a more perfect Union establish Justice insure domestic Tranquility provide for the common defence promote the general Welfare and secure the Blessings of Liberty to ourselves and our Posterity do ordain and establish this Constitution for the United States of America Article I Section 1 All legislative Powers herein granted shall be vested in a Congress of the United States which shall consist of a Senate and House of Representatives Amendment I Congress shall make no law respecting an establishment of religion or prohibiting the free exercise thereof or abridging the freedom of speech or of the press or the right of the people peaceably to assemble and to petition the Government for a redress of grievances Amendment II A well regulated Militia being necessary to the security of a free State the right of the people to keep and bear Arms shall not be infringed [ALL 27 AMENDMENTS] Done in Convention G Washington Presidt`;
 
         let binaryString = '';
         for (let i = 0; i < fullFoundingDocs.length; i++) binaryString += fullFoundingDocs.charCodeAt(i).toString(2).padStart(8, '0') + ' ';
@@ -65,93 +61,106 @@
 
         const canvas = document.getElementById('bg');
         const ctx = canvas.getContext('2d');
-        function resize() { canvas.width = innerWidth; canvas.height = innerHeight; initBinary(); }
+        function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
         resize(); addEventListener('resize', resize);
 
         let starPhase = 0, reckoning = false;
-        const binaryColumns = [];
-        function initBinary() {
-            binaryColumns.length = 0;
-            const colCount = innerWidth / 12 + 100;
-            for (let i = 0; i < colCount; i++) binaryColumns.push({x: i * 12 + Math.random() * 12, y: Math.random() * -innerHeight, speed: 1.5 + Math.random() * 2.5, index: Math.floor(Math.random() * binaryArray.length), length: 15 + Math.floor(Math.random() * 10)});
-        }
+        const columns = [];
+        for (let i = 0; i < 200; i++) columns.push({x: i * 10, y: Math.random() * -innerHeight, speed: 2 + Math.random() * 3, index: Math.random() * binaryArray.length | 0});
 
-        function drawFlag() {
+        function draw() {
             ctx.fillStyle = '#0b1e3d'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            const stripeHeight = canvas.height / 13 + 30;
-            binaryColumns.forEach(col => {
-                if (!reckoning) col.y += col.speed;
-                if (col.y > canvas.height + 200) { col.y = -200; col.index = (col.index + 150) % binaryArray.length; }
-                const stripeIndex = Math.floor((col.y + canvas.height) / stripeHeight) % 13;
-                ctx.fillStyle = stripeIndex % 2 === 0 ? '#C8102E' : '#FFFFFF';
-                ctx.globalAlpha = reckoning ? 1 : 0.75;
-                for (let i = 0; i < col.length; i++) {
-                    const bit = binaryArray[(col.index + i) % binaryArray.length];
-                    const by = col.y + i * 22;
-                    if (by > -50 && by < canvas.height + 50) { ctx.font = '14px monospace'; ctx.fillText(bit, col.x, by); }
+            const stripeH = canvas.height / 13;
+            columns.forEach(c => {
+                c.y += c.speed;
+                if (c.y > canvas.height) c.y = -100;
+                const stripe = Math.floor(c.y / stripeH) % 13;
+                ctx.fillStyle = stripe % 2 === 0 ? '#C_RED' : '#fff';
+                ctx.globalAlpha = 0.8;
+                for (let j = 0; j < 20; j++) {
+                    const bit = binaryArray[(c.index + j) % binaryArray.length];
+                    ctx.fillText(bit, c.x, c.y + j * 20);
                 }
-                col.index = (col.index + 1) % binaryArray.length;
+                c.index++;
             });
             ctx.globalAlpha = 1;
 
-            // Stars code same as before...
-            starPhase += 0.05; if (!reckoning) requestAnimationFrame(drawFlag);
-        }
-        drawFlag();
+            // Stars pulsing
+            ctx.fillStyle = '#fff';
+            ctx.shadowColor = '#0ff';
+            ctx.shadowBlur = 20;
+            for (let i = 0; i < 50; i++) {
+                const pulse = Math.sin(starPhase + i) * 0.5 + 0.5;
+                ctx.globalAlpha = pulse;
+                ctx.fillText('★', 50 + (i % 9) * 40, 50 + Math.floor(i / 9) * 40);
+            }
+            ctx.globalAlpha = 1;
+            ctx.shadowBlur = 0;
 
-        // CLIENT-SIDE GLOBAL COUNTERS (localStorage + URL sync)
+            starPhase += 0.05;
+            if (!reckoning) requestAnimationFrame(draw);
+        }
+        draw();
+
         const TARGET = 100000000;
         let signers = JSON.parse(localStorage.getItem('signers') || '[]');
         let lawyers = JSON.parse(localStorage.getItem('lawyers') || '[]');
-        const urlParams = new URLSearchParams(location.search);
-        if (urlParams.get('sync')) {
-            const data = JSON.parse(atob(urlParams.get('sync')));
-            signers = data.signers || signers;
-            lawyers = data.lawyers || lawyers;
-            localStorage.setItem('signers', JSON.stringify(signers));
-            localStorage.setItem('lawyers', JSON.stringify(lawyers));
-            history.replaceState(null, null, location.pathname);
-        }
-
-        function shareSync() {
-            const data = btoa(JSON.stringify({signers, lawyers}));
-            navigator.clipboard.writeText(location.href + '?sync=' + data);
-            alert('GLOBAL SYNC LINK COPIED - SHARE THIS TO SPREAD SIGNATURES WORLDWIDE');
-        }
 
         function update() {
             document.getElementById('signCount').textContent = signers.length.toLocaleString();
-            const remaining = TARGET - signers.length;
-            document.getElementById('progressFill').style.width = (signers.length / TARGET * 100) + '%';
+            const percent = signers.length / TARGET * 100;
+            document.getElementById('progressFill').style.width = percent + '%';
             document.getElementById('progressText').textContent = signers.length.toLocaleString() + ' / 100,000,000';
-            if (remaining <= 0) {
-                reckoning = true;
-                document.getElementById('timer').innerHTML = 'THE RECKONING IS HERE!';
-                drawFlag();
-            } else document.getElementById('timer').innerHTML = remaining.toLocaleString() + ' to go';
-            document.getElementById('lawyerList').innerHTML = lawyers.length ? lawyers.map(l => `<div class="lawyer"><strong>${l.name}</strong> — ${l.jurisdiction}<br><em>"${l.why}"</em><br>Contact: <code>${l.contact}</code></div>`).join('') : 'No warriors yet...';
+            const remaining = TARGET - signers.length;
+            document.getElementById('timer').textContent = remaining <= 0 ? 'RECKONING HERE!' : remaining.toLocaleString() + ' to go';
+            document.getElementById('lawyerList').innerHTML = lawyers.map(l => `<div class="lawyer"><strong>${l.name}</strong> ${l.jurisdiction}<br><em>"${l.why}"</em><br>Contact: ${l.contact}</div>`).join('') || 'No warriors yet';
+            if (remaining <= 0) reckoning = true;
         }
         update();
 
         document.getElementById('petition').onsubmit = e => {
             e.preventDefault();
-            signers.push({name: document.getElementById('name').value, city: document.getElementById('city').value, date: new Date().toISOString()});
+            signers.push({name: document.getElementById('name').value, city: document.getElementById('city').value});
             localStorage.setItem('signers', JSON.stringify(signers));
             update();
-            shareSync();
+            alert('SIGNED! Revolution stronger. Share the sync link from browser share button or copy URL now.');
             e.target.reset();
         };
 
         document.getElementById('legalForm').onsubmit = e => {
             e.preventDefault();
-            lawyers.push({name: document.getElementById('lawyerName').value, contact: document.getElementById('safeContact').value, why: document.getElementById('whyLawyer').value, jurisdiction: document.getElementById('jurisdiction').value, date: new Date().toISOString()});
+            lawyers.push({name: document.getElementById('lawyerName').value, contact: document.getElementById('safeContact').value, why: document.getElementById('whyLawyer').value, jurisdiction: document.getElementById('jurisdiction').value});
             localStorage.setItem('lawyers', JSON.stringify(lawyers));
             update();
-            shareSync();
+            alert('ENLISTED! Contact the warriors listed.');
             e.target.reset();
         };
 
-        // Population ticker
+        // Global sync via URL (share this link to sync signatures everywhere)
+        if (location.search.includes('sync=')) {
+            const data = JSON.parse(atob(new URLSearchParams(location.search).get('sync')));
+            signers = data.s || signers;
+            lawyers = data.l || lawyers;
+            localStorage.setItem('signers', JSON.stringify(signers));
+            localStorage.setItem('lawyers', JSON.stringify(lawyers));
+            update();
+            history.replaceState(null, null, location.pathname);
+        }
+
+        function shareSync() {
+            const data = btoa(JSON.stringify({s: signers, l: lawyers}));
+            const link = location.href.split('?')[0] + '?sync=' + data;
+            navigator.clipboard.writeText(link);
+            alert('GLOBAL SYNC LINK COPIED - SHARE THIS TO UNITE ALL SIGNATURES!');
+        }
+
+        // Add share button
+        const shareBtn = document.createElement('button');
+        shareBtn.textContent = 'COPY GLOBAL SYNC LINK';
+        shareBtn.onclick = shareSync;
+        document.body.appendChild(shareBtn);
+
+        // Population
         let pop = 39029342;
         setInterval(() => { if (Math.random() < 0.55) pop++; document.getElementById('pop').textContent = pop.toLocaleString(); }, 12000);
     </script>
